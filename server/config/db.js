@@ -1,20 +1,24 @@
 import mongoose from "mongoose";
 
-export async function connectDB() {
+const connectDB = async () => {
   try {
-    await mongoose.connect(
-      "mongodb://localhost:27017/lmsApp"
-    );
-    console.log("Database connected");
-  } catch (err) {
-    console.log(err);
-    console.log("Could Not Connect to the Database");
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      dbName: "lmsApp",
+    });
+
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.error("MongoDB connection failed");
+    console.error(error.message);
     process.exit(1);
   }
-}
+};
 
 process.on("SIGINT", async () => {
   await mongoose.disconnect();
   console.log("Database Disconnected!");
   process.exit(0);
 });
+
+
+export default connectDB;

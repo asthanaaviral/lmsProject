@@ -1,32 +1,45 @@
 import express from "express";
 import cors from "cors";
-import { connectDB } from "./config/db.js";
-import courseRoutes from "./routes/courses.js";
-import cartRoutes from "./routes/cart.js";
-import authRoutes from "./routes/auth.js";
-import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
+import path from "path";
 
-await connectDB();
+import connectDB from "./config/db.js";
+import errorHandler from "./middlewares/error.middleware.js";
+import authRoutes from "./routes/auth.routes.js"
+import courseRoutes from "./routes/course.routes.js"
+import lessonRoutes from "./routes/lesson.routes.js"
+
+dotenv.config();
+
+connectDB();
 
 const app = express();
-const PORT = 4000;
 
-// Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "*",
     credentials: true,
   })
 );
-app.use(express.json());
-app.use(cookieParser("mySecretKey"));
 
-// Routes
-app.use("/courses", courseRoutes);
-app.use("/cart", cartRoutes);
-app.use("/auth", authRoutes);
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true }));
 
+app.use("/uploads", express.static("uploads"));
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "LMS API is running",
+  });
 });
+
+
+app.use("/api/auth", authRoutes);
+app.use("/api/courses", courseRoutes);
+app.use("/api/lessons", lessonRoutes);
+
+
+app.use(errorHandler);
+
+export default app;
