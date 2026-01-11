@@ -22,6 +22,7 @@ const EducatorDashboard = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -175,7 +176,7 @@ const EducatorDashboard = () => {
                 {/* Thumbnail */}
                 <div className="h-40 overflow-hidden">
                   <img
-                    src={`http://localhost:5000${course.thumbnail}`}
+                    src={`${BASE_URL}${course.thumbnail}`}
                     alt={course.title}
                     className="w-full h-full object-cover"
                   />

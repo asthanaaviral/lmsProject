@@ -28,6 +28,9 @@ const ManageCourse = () => {
   const [loading, setLoading] = useState(true);
   const [publishing, setPublishing] = useState(false);
   const [error, setError] = useState("");
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
+
+
 
 useEffect(() => {
     const fetchData = async () => {
@@ -121,7 +124,7 @@ useEffect(() => {
         {/* Left */}
         <div className="lg:col-span-2 space-y-4">
           <img
-            src={`http://localhost:5000${course.thumbnail}`}
+            src={`${BASE_URL}${course.thumbnail}`}
             alt={course.title}
             className="w-full h-64 object-cover rounded-2xl"
           />

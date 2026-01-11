@@ -21,6 +21,8 @@ const LessonPlayer = () => {
   const [currentLesson, setCurrentLesson] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
+
 
   useEffect(() => {
     const fetchLessons = async () => {
@@ -139,7 +141,7 @@ const LessonPlayer = () => {
 
         <div className="rounded-2xl overflow-hidden bg-black shadow-lg">
           <video
-            src={`http://localhost:5000${currentLesson.videoUrl}`}
+            src={`${BASE_URL}${currentLesson.videoUrl}`}
             controls
             controlsList="nodownload"
             className="w-full h-[60vh] object-contain"
