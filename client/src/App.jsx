@@ -1,49 +1,22 @@
-import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { CartProvider } from "./context/CartContext";
-import Navbar from "./components/Navbar";
-import Home from "./pages/Home";
-import Cart from "./pages/Cart";
-import { AuthProvider } from "./context/AuthContext";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import { motion } from "framer-motion";
+import Navbar from "./components/layout/Navbar";
+import AppRoutes from "./routes/AppRoutes";
 
-function App() {
-  const [darkMode, setDarkMode] = useState(() => {
-    const savedMode = localStorage.getItem("darkMode");
-    return savedMode ? JSON.parse(savedMode) : true;
-  });
-
-  useEffect(() => {
-    localStorage.setItem("darkMode", JSON.stringify(darkMode));
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
-
+const App = () => {
   return (
-    <Router>
-      <AuthProvider>
-        <CartProvider>
-          <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-10">
-            <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-            </Routes>
-          </div>
-        </CartProvider>
-      </AuthProvider>
-    </Router>
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+      <Navbar />
+
+      <motion.main
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4 }}
+        className="pt-20"
+      >
+        <AppRoutes />
+      </motion.main>
+    </div>
   );
-}
+};
 
 export default App;

@@ -9,7 +9,7 @@ const lessonSchema = new mongoose.Schema(
     },
 
     videoUrl: {
-      type: String, // Cloudinary / S3 URL
+      type: String, 
       required: true,
     },
 
